@@ -33,6 +33,8 @@ public class Brush : MonoBehaviour, IColorChanger
         StopAllCoroutines();
         SetBrushColor(color);
         ResetTime();
+
+        //TO DO: This can be modular
         if (!color.Equals(this.defaultColor))
         {
             StartCoroutine("ColorReset");
