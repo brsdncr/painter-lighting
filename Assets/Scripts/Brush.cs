@@ -10,14 +10,25 @@ public class Brush : MonoBehaviour, IColorChanger
     float timeLeft = 3.0f;
     float timeResetValue = 3.0f;
 
+    Renderer rend;
+
     private void Start()
     {
+        Cursor.visible = false;
+        rend = GetComponent<Renderer>();
         ResetColor();
+    }
+
+    void Update()
+    {
+        Vector3 currentMousePos = Input.mousePosition;
+        Vector3 cursorPos = Camera.main.ScreenToWorldPoint(new Vector3(currentMousePos.x,currentMousePos.y, 10f));
+        transform.position = cursorPos;
     }
 
     public void SetColor(Color color)
     {
-        this.brushColor = color;
+        SetBrushColor(color);
         ResetTime();
         StartCoroutine("ColorReset");
     }
@@ -47,5 +58,12 @@ public class Brush : MonoBehaviour, IColorChanger
     private void ResetColor()
     {
         brushColor = defaultColor;
+        rend.material.SetColor("_Color", defaultColor);
+    }
+
+    private void SetBrushColor(Color color)
+    {
+        this.brushColor = color;
+        rend.material.SetColor("_Color", color);
     }
 }
